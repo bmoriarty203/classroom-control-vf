@@ -46,6 +46,6 @@ node default {
   notify { "Let's keep on rollin'!": }
 
   exec {"cowsay 'Welcome to ${::fqdn}!' > /etc/motd":
-    create => "/etc/motd",
+    creates => "/etc/motd",
   }
 }
