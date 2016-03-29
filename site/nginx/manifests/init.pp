@@ -22,13 +22,13 @@ class nginx {
 
   file { '/etc/nginx/conf.d/default.conf':
     ensure => file,
-    require => File['/var/www/index.html'],
+    require => File['/etc/nginx/nginx.conf'],
     source => 'puppet:///modules/nginx/default.conf',
   }
   
   service { 'nginx':
     ensure => running,
     enable => true,
-    require => File['/var/www/index.html'],
+    require => File['/etc/nginx/conf.d/default.conf'],
   }
 }
