@@ -5,7 +5,7 @@ class nginx {
       $nginx_file_owner = 'root'
       $nginx_group_owner = 'root'
       $nginx_root = '/var/www'
-      $nginx_config_dir = '/etc/nginx/'
+      $nginx_config_dir = '/etc/nginx'
       $nginx_server_block_dir = '/etc/nginx/conf.d'
       $nginx_logs_dir = '/var/log/nginx'
       $nginx_name = 'nginx'
@@ -27,7 +27,7 @@ class nginx {
       $nginx_file_owner = 'root'
       $nginx_group_owner = 'root'
       $nginx_root = '/var/www'
-      $nginx_config_dir = '/etc/nginx/'
+      $nginx_config_dir = '/etc/nginx'
       $nginx_server_block_dir = '/etc/nginx/conf.d'
       $nginx_logs_dir = '/var/log/nginx'
       $nginx_name = 'nginx'
@@ -60,13 +60,13 @@ class nginx {
   
   file { "${nginx_config_dir}/nginx.conf":
     ensure => file,
-    require => File['/var/www/index.html'],
+    require => File["${nginx_root}/index.html"],
     content => template('nginx/nginx.conf.erb'),
   }
 
   file { "${nginx_server_block_dir}/default.conf":
     ensure => file,
-    require => File['/etc/nginx/nginx.conf'],
+    require => File["${nginx_config_dir}/nginx.conf"],
     content => template('nginx/default.conf.erb'),
   }
   
