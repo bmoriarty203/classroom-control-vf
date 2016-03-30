@@ -10,6 +10,7 @@ define users::managed_user (
   }
   user { $user:
     ensure => present,
+    home => $home,
     shell => $shell,
   }
   file { $home:
