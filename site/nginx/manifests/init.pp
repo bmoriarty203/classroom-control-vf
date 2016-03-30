@@ -1,16 +1,23 @@
 class nginx {
+  File {
+    owner => 'root',
+    group => 'root',
+    mode  => '0644',
+  }
+  
+  $web_root => '/var/www'
+
   package { 'nginx':
     ensure => present,
   }
   
-  file { '/var/www':
+  file { $web_root:
     ensure => directory,
     require => Package['nginx'],
   }
   
-  file { '/var/www/index.html':
+  file { "${web_root}/index.html":
     ensure => file,
-    require => File['/var/www'],
     source => 'puppet:///modules/nginx/index.html',
   }
   
