@@ -3,7 +3,7 @@ class nginx {
     'debian': {
       $nginx_pkg = 'nginx'
       $nginx_file_owner = 'root'
-      $nginx_file_owner = 'root'
+      $nginx_group_owner = 'root'
       $nginx_root = '/var/www'
       $nginx_config_dir = '/etc/nginx/'
       $nginx_server_block_dir = '/etc/nginx/conf.d'
@@ -14,7 +14,7 @@ class nginx {
     'windows': {
       $nginx_pkg = 'nginx-service'
       $nginx_file_owner = 'Administrator'
-      $nginx_file_owner = 'Administrators'
+      $nginx_group_owner = 'Administrators'
       $nginx_root = 'C:/ProgramData/nginx/html'
       $nginx_config_dir = 'C:/ProgramData/nginx'
       $nginx_server_block_dir = 'C:/ProgramData/nginx/conf.d'
@@ -25,7 +25,7 @@ class nginx {
     'redhat': {
       $nginx_pkg = 'nginx'
       $nginx_file_owner = 'root'
-      $nginx_file_owner = 'root'
+      $nginx_group_owner = 'root'
       $nginx_root = '/var/www'
       $nginx_config_dir = '/etc/nginx/'
       $nginx_server_block_dir = '/etc/nginx/conf.d'
