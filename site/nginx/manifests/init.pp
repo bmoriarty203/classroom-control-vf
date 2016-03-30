@@ -1,36 +1,73 @@
 class nginx {
+  case $::osfamily {
+    'debian': {
+      $nginx_pkg = 'nginx'
+      $nginx_file_owner = 'root'
+      $nginx_file_owner = 'root'
+      $nginx_root = '/var/www'
+      $nginx_config_dir = '/etc/nginx/'
+      $nginx_server_block_dir = '/etc/nginx/conf.d'
+      $nginx_logs_dir = '/var/log/nginx'
+      $nginx_name = 'nginx'
+      $nginx_runas = 'www-data'
+    }
+    'windows': {
+      $nginx_pkg = 'nginx-service'
+      $nginx_file_owner = 'Administrator'
+      $nginx_file_owner = 'Administrators'
+      $nginx_root = 'C:/ProgramData/nginx/html'
+      $nginx_config_dir = 'C:/ProgramData/nginx'
+      $nginx_server_block_dir = 'C:/ProgramData/nginx/conf.d'
+      $nginx_logs_dir = 'C:/ProgramData/nginx/logs'
+      $nginx_name = 'nginx'
+      $nginx_runas = 'nobody'
+    }
+    'redhat': {
+      $nginx_pkg = 'nginx'
+      $nginx_file_owner = 'root'
+      $nginx_file_owner = 'root'
+      $nginx_root = '/var/www'
+      $nginx_config_dir = '/etc/nginx/'
+      $nginx_server_block_dir = '/etc/nginx/conf.d'
+      $nginx_logs_dir = '/var/log/nginx'
+      $nginx_name = 'nginx'
+      $nginx_runas = 'nginx'
+    }
+    default: {
+      fail("Operating system #{operatingsystem} is not supported.")
+    }
+  }
+  
   File {
     owner => 'root',
     group => 'root',
     mode  => '0644',
   }
   
-  $web_root = '/var/www'
-
-  package { 'nginx':
+  package { $nginx_pkg:
     ensure => present,
   }
   
-  file { $web_root:
+  file { $nginx_root:
     ensure => directory,
     require => Package['nginx'],
   }
   
-  file { "${web_root}/index.html":
+  file { "${nginx_root}/index.html":
     ensure => file,
     source => 'puppet:///modules/nginx/index.html',
   }
   
-  file { '/etc/nginx/nginx.conf':
+  file { "${nginx_config_dir}/nginx.conf":
     ensure => file,
     require => File['/var/www/index.html'],
-    source => 'puppet:///modules/nginx/nginx.conf',
+    content => template('nginx/nginx.conf.erb'),
   }
 
-  file { '/etc/nginx/conf.d/default.conf':
+  file { "${nginx_server_block_dir}/default.conf":
     ensure => file,
     require => File['/etc/nginx/nginx.conf'],
-    source => 'puppet:///modules/nginx/default.conf',
+    content => template('nginx/default.conf.erb'),
   }
   
   service { 'nginx':
