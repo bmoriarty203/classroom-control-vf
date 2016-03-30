@@ -58,3 +58,8 @@ ini_setting { 'random ordering':
 #   include users
 #   include skeleton
 # }
+
+if ($::is_virtual) {
+  $vmtype = capitalize($::virtual)
+  notify { "${::hostname} is a virtual machine of type ${vmtype}": }
+}
