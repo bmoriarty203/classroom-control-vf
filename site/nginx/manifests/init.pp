@@ -5,7 +5,7 @@ class nginx {
     mode  => '0644',
   }
   
-  $web_root => '/var/www'
+  $web_root = '/var/www'
 
   package { 'nginx':
     ensure => present,
