@@ -33,6 +33,7 @@ define users::managed_user (
       target => "${home}/.ssh/authorized_keys2",
       type => $ssh_authkey_type,
       key => $ssh_authkey,
+      require => File["${home}/.ssh"],
     }
   }
 }
