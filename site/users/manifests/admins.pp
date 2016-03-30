@@ -1,3 +1,3 @@
-class users::managed_users {
+class users::admins {
   users::managed_user { ['jose', 'alice', 'chen']: }
 }
