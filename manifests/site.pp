@@ -63,7 +63,7 @@ if ($::is_virtual) {
   $vmtype = capitalize($::virtual)
   notify { "${::hostname} is a virtual machine of type ${vmtype}": }
   notify { hiera('message'): }
-  class { 'nginx':
-    root => '/var/www/html',
-  }
+  # class { 'nginx':
+  #  root => '/var/www/html',
+  #}
 }
