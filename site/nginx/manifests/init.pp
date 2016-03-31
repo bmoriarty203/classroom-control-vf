@@ -2,7 +2,7 @@ class nginx (
 $nginx_pkg = $nginx::params::nginx_pkg,
 $nginx_file_owner = $nginx::params::nginx_file_owner,
 $nginx_group_owner = $nginx::params::nginx_group_owner,
-$nginx_root,
+$nginx_root = $nginx::params::nginx_default_root,
 $nginx_config_dir = $nginx::params::nginx_config_dir,
 $nginx_logs_dir = $nginx::params::nginx_logs_dir,
 $nginx_runas = $nginx::params::nginx_runas,
