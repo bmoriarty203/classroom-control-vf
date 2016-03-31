@@ -1,53 +1,18 @@
 class nginx (
-  $root = undef,
-) {
-  case $::osfamily {
-    'debian': {
-      $nginx_pkg = 'nginx'
-      $nginx_file_owner = 'root'
-      $nginx_group_owner = 'root'
-      $nginx_default_root = '/var/www'
-      $nginx_config_dir = '/etc/nginx'
-      $nginx_server_block_dir = '/etc/nginx/conf.d'
-      $nginx_logs_dir = '/var/log/nginx'
-      $nginx_name = 'nginx'
-      $nginx_runas = 'www-data'
-    }
-    'windows': {
-      $nginx_pkg = 'nginx-service'
-      $nginx_file_owner = 'Administrator'
-      $nginx_group_owner = 'Administrators'
-      $nginx_default_root = 'C:/ProgramData/nginx/html'
-      $nginx_config_dir = 'C:/ProgramData/nginx'
-      $nginx_server_block_dir = 'C:/ProgramData/nginx/conf.d'
-      $nginx_logs_dir = 'C:/ProgramData/nginx/logs'
-      $nginx_name = 'nginx'
-      $nginx_runas = 'nobody'
-    }
-    'redhat': {
-      $nginx_pkg = 'nginx'
-      $nginx_file_owner = 'root'
-      $nginx_group_owner = 'root'
-      $nginx_default_root = '/var/www'
-      $nginx_config_dir = '/etc/nginx'
-      $nginx_server_block_dir = '/etc/nginx/conf.d'
-      $nginx_logs_dir = '/var/log/nginx'
-      $nginx_name = 'nginx'
-      $nginx_runas = 'nginx'
-    }
-    default: {
-      fail("Operating system #{operatingsystem} is not supported.")
-    }
-  }
-  
+$nginx_pkg = $nginx::params::nginx_pkg,
+$nginx_file_owner = $nginx::params::nginx_file_owner,
+$nginx_group_owner = $nginx::params::nginx_group_owner,
+$nginx_root = $nginx::params::nginx_default_root,
+$nginx_config_dir = $nginx::params::nginx_config_dir,
+$nginx_logs_dir = $nginx::params::nginx_logs_dir,
+$nginx_runas = $nginx::params::nginx_runas,
+$nginx_name = 'nginx',
+) inherits nginx::params {
+ 
   File {
     owner => 'root',
     group => 'root',
     mode  => '0644',
-  }
-  $nginx_root = $root ? {
-    undef => $nginx_default_root,
-    default => $root,
   }
   
   package { $nginx_pkg:
@@ -70,7 +35,7 @@ class nginx (
     content => template('nginx/nginx.conf.erb'),
   }
 
-  file { "${nginx_server_block_dir}/default.conf":
+  file { "${nginx_config_dir}/conf.d/default.conf":
     ensure => file,
     require => File["${nginx_config_dir}/nginx.conf"],
     content => template('nginx/default.conf.erb'),
