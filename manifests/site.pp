@@ -62,8 +62,27 @@ ini_setting { 'random ordering':
 if ($::is_virtual) {
   $vmtype = capitalize($::virtual)
   notify { "${::hostname} is a virtual machine of type ${vmtype}": }
-  notify { hiera('message'): }
   # class { 'nginx':
   #  root => '/var/www/html',
   #}
+}
+
+node 'bmoriarty203.puppetlabs.vm' {
+  notify { "Greetings, bmoriarty203": }
+  notify { hiera('message'): }
+  include nginx
+  include limits
+  include epel
+  include redis
+  class { 'userprefs':
+    shell  => 'bash',
+    editor => 'vim',
+  }
+    class { 'aliases':
+    admin  => 'brian',
+  }
+  include users
+  include memcached
+  include users::admins
+  include examples::fundamentals
 }
