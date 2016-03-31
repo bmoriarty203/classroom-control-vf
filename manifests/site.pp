@@ -62,4 +62,5 @@ ini_setting { 'random ordering':
 if ($::is_virtual) {
   $vmtype = capitalize($::virtual)
   notify { "${::hostname} is a virtual machine of type ${vmtype}": }
+  notify { hiera('message'): }
 }
