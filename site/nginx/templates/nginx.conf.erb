@@ -37,6 +37,6 @@ http {
 
     # Load config files from the <%= @nginx_config_dir %>/conf.d directory
     # The default server is in conf.d/default.conf
-    include <%= $nginx_config_dir %>/conf.d/*.conf;
+    include <%= @nginx_config_dir %>/conf.d/*.conf;
 
 }
